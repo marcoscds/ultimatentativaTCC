@@ -1,0 +1,50 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/27.3.13750724
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      PATH: ${{ env.PATH }}:/usr/local/lib/android/sdk/platform-tools:/usr/local/lib/android/sdk/tools
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip autoconf automake libtool pkg-config \
+          zlib1g-dev libncurses5 libstdc++6 libffi-dev libssl-dev libsqlite3-dev \
+          libpng-dev libfreetype6-dev
+
+    - name: Setup venv
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install buildozer python-for-android
+
+    - name: Build APK
+      run: |
+        source venv/bin/activate
+        buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: myapp-apk
+        path: bin/*.apk
