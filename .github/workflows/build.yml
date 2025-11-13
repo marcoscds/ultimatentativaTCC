@@ -67,6 +67,8 @@ jobs:
 
     - name: Force clean build
       run: rm -rf .buildozer ~/.buildozer
+           rm -rf .buildozer/android/platform/build-arm64-v8a/build/other_builds/harfbuzz-freetype
+
 
     # 7️⃣ Build APK com log detalhado
     - name: Build APK
