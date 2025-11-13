@@ -2,7 +2,9 @@ from pythonforandroid.recipe import AutotoolsRecipe
 
 class HarfbuzzPatchedRecipe(AutotoolsRecipe):
     version = "5.3.1"
-    url = f"https://github.com/harfbuzz/harfbuzz/archive/refs/tags/{version}.tar.gz"
+    url = f"https://mirror.ghproxy.com/https://github.com/harfbuzz/harfbuzz/archive/refs/tags/{version}.tar.gz"
+
+
 
     def get_recipe_env(self, arch=None, **kwargs):
         env = super().get_recipe_env(arch, **kwargs)
