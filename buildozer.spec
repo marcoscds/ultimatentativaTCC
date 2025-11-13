@@ -25,7 +25,7 @@ requirements = python3==3.10.14,kivy==2.3.0,numpy,matplotlib,pillow,harfbuzz,req
 #presplash.filename = %(source.dir)s/Splash.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/Icon.png
+#icon.filename = icone.png
 
 # (list) Supported orientations
 orientation = portrait
