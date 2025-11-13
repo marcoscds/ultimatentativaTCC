@@ -10,10 +10,11 @@ class HarfbuzzPatchedRecipe(Recipe):
         # Diretório onde o freetype foi compilado
         freetype_build = self.get_recipe('freetype', self.ctx).get_build_dir(arch.arch)
         freetype_include = f"{freetype_build}/include"
+        freetype_include2 = f"{freetype_build}/include/freetype2"
 
-        # Inclui o caminho do freetype no include path e corrige warnings
-        env["CFLAGS"] += f" -I{freetype_include} -Wno-error=cast-function-type-strict"
-        env["CXXFLAGS"] += f" -I{freetype_include} -Wno-error=cast-function-type-strict"
+        # Inclui ambos os caminhos do freetype
+        env["CFLAGS"] += f" -I{freetype_include} -I{freetype_include2} -Wno-error=cast-function-type-strict"
+        env["CXXFLAGS"] += f" -I{freetype_include} -I{freetype_include2} -Wno-error=cast-function-type-strict"
         env["LDFLAGS"] += f" -L{freetype_build}/objs/.libs"
         env["PKG_CONFIG_PATH"] = f"{freetype_build}/objs"
 
