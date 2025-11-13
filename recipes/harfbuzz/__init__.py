@@ -1,34 +1,31 @@
-from pythonforandroid.recipe import AutotoolsRecipe
+from pythonforandroid.recipe import Recipe
 
-class HarfbuzzPatchedRecipe(AutotoolsRecipe):
+class HarfbuzzPatchedRecipe(Recipe):
     version = "5.3.1"
-    url = f"https://mirror.ghproxy.com/https://github.com/harfbuzz/harfbuzz/archive/refs/tags/{version}.tar.gz"
-
-
+    url = f"https://github.com/harfbuzz/harfbuzz/archive/refs/tags/{version}.tar.gz"
+    depends = ["freetype", "libpng"]
 
     def get_recipe_env(self, arch=None, **kwargs):
         env = super().get_recipe_env(arch, **kwargs)
 
-        # Remove qualquer -Werror herdado
-        env["CFLAGS"] = env.get("CFLAGS", "").replace("-Werror", "")
-        env["CXXFLAGS"] = env.get("CXXFLAGS", "").replace("-Werror", "")
+        # Desativa warnings tratados como erro
+        cflags_fix = "-Wno-error -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wno-error=cast-function-type-strict"
+        env["CFLAGS"] = env.get("CFLAGS", "") + " " + cflags_fix
+        env["CXXFLAGS"] = env.get("CXXFLAGS", "") + " " + cflags_fix
 
-        # Ignora warnings específicos
-        flags = "-Wno-error -Wno-error=unused-but-set-variable -Wno-error=cast-function-type-strict"
-        env["CFLAGS"] += f" {flags}"
-        env["CXXFLAGS"] += f" {flags}"
-
-        # Caminhos do freetype
+        # Diretórios do freetype (linkagem e includes)
         freetype_build = self.get_recipe('freetype', self.ctx).get_build_dir(arch.arch)
-        freetype_include = f"{freetype_build}/include"
-        freetype_include2 = f"{freetype_build}/include/freetype2"
-
-        env["CFLAGS"] += f" -I{freetype_include} -I{freetype_include2}"
-        env["CXXFLAGS"] += f" -I{freetype_include} -I{freetype_include2}"
-
-        # Linkagem com freetype
+        freetype_includes = [
+            f"-I{freetype_build}/include",
+            f"-I{freetype_build}/include/freetype2"
+        ]
+        env["CFLAGS"] += " " + " ".join(freetype_includes)
+        env["CXXFLAGS"] += " " + " ".join(freetype_includes)
         env["LDFLAGS"] += f" -L{freetype_build}/objs/.libs"
         env["PKG_CONFIG_PATH"] = f"{freetype_build}/objs"
+
+        # Garante compatibilidade de build
+        env["CPPFLAGS"] = env.get("CPPFLAGS", "") + " -fPIC -std=c++17"
 
         return env
 
