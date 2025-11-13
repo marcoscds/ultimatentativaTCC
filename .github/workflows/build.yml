@@ -23,7 +23,8 @@ jobs:
     # 3️⃣ Instala dependências do sistema
     - name: Install system dependencies
       run: |
-        sudo apt update
+        sudo apt-get update
+        sudo apt-get install -y libfreetype6-dev libpng-dev pkg-config
         sudo apt install -y \
           python3-venv git zip unzip openjdk-17-jdk \
           zlib1g-dev libncurses5-dev libncurses6 libstdc++6 \
@@ -63,10 +64,9 @@ jobs:
           convert -size 720x1280 xc:blue -gravity center -pointsize 120 -fill white -annotate +0+0 "Antenas" Splash.png || true
         fi
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libfreetype6-dev libpng-dev pkg-config
+
+    - name: Force clean build
+      run: rm -rf .buildozer ~/.buildozer
 
     # 7️⃣ Build APK com log detalhado
     - name: Build APK
