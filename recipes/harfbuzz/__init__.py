@@ -3,46 +3,45 @@ from pythonforandroid.recipes.harfbuzz import HarfbuzzRecipe
 from pythonforandroid.util import current_directory, shprint
 import sh
 
-# Esta receita herda da receita Harfbuzz padrão do p4a,
-# para garantir que todos os passos de compilação (configure, make) sejam executados.
 
 class HarfbuzzFixRecipe(HarfbuzzRecipe):
-    """
-    Receita customizada para Harfbuzz que injeta flags de compilação
-    para desativar o erro -Werror (treat warnings as errors), resolvendo
-    falhas no NDK devido a variáveis não utilizadas (unused-but-set-variable).
-    """
-    # Sobrescreve o nome da receita, forçando o p4a a usá-la
     name = 'harfbuzz'
 
-    def build_arch(self, arch):
-        # Pega as variáveis de ambiente base da receita padrão
-        env = self.get_recipe_env(arch)
+    def get_recipe_env(self, arch=None, **kwargs):
+        env = super().get_recipe_env(arch, **kwargs)
 
-        # A sua lista completa de flags para mitigar erros de NDK
+        # Ignorar Werror
         no_error_flags = (
             " -Wno-error"
             " -Wno-error=unused-but-set-variable"
             " -Wno-error=deprecated-declarations"
             " -Wno-error=cast-function-type-strict"
+            " -Wno-error=incompatible-pointer-types"
         )
 
-        # --- CORREÇÃO CRÍTICA: INJETAR FLAGS DE COMPILAÇÃO ---
-        # Adiciona as flags de mitigação às variáveis CFLAGS e CXXFLAGS
-        env['CFLAGS'] = env.get('CFLAGS', '') + no_error_flags
-        env['CXXFLAGS'] = env.get('CXXFLAGS', '') + no_error_flags
-        # ----------------------------------------------------
+        env['CFLAGS'] = env.get('CFLAGS', '') + " -fPIC" + no_error_flags
+        env['CXXFLAGS'] = env.get('CXXFLAGS', '') + " -fPIC -std=c++17" + no_error_flags
+
+        # FreeType
+        freetype_recipe = self.get_recipe('freetype', self.ctx)
+        freetype_build_dir = freetype_recipe.get_build_dir(arch.arch)
+
+        env["CFLAGS"] += f" -I{freetype_build_dir}/include -I{freetype_build_dir}/include/freetype2"
+        env["CXXFLAGS"] += f" -I{freetype_build_dir}/include -I{freetype_build_dir}/include/freetype2"
+        env["LDFLAGS"] += f" -L{freetype_build_dir}/objs/.libs"
+
+        env["PKG_CONFIG_PATH"] = f"{freetype_build_dir}/objs"
+
+        return env
+
+    def build_arch(self, arch):
+        env = self.get_recipe_env(arch)
 
         with current_directory(self.get_build_dir(arch.arch)):
-            # Chama a compilação (make) com o ambiente modificado
             shprint(sh.make, '-j', str(self.cpu_count), _env=env)
+            shprint(sh.make, 'install', f"DESTDIR={arch.dist_dir}", _env=env)
 
-            # Instalação padrão (herdada)
-            shprint(sh.make, 'install', _env=env)
-
-            # Limpeza e instalação final (herdada)
-            self.install_headers(arch)
+        self.install_headers(arch)
 
 
-# O p4a espera que a variável de entrada tenha o mesmo nome da receita (harfbuzz)
 recipe = HarfbuzzFixRecipe()
