@@ -55,6 +55,8 @@ jobs:
     # 6️⃣ Cria imagens placeholder se não existirem
     - name: Create placeholder images
       run: |
+        # Instala ImageMagick para o comando 'convert'
+        sudo apt install -y imagemagick
         if [ ! -f Icon.png ]; then
           echo "Creating Icon.png placeholder..."
           convert -size 512x512 xc:blue -gravity center -pointsize 72 -fill white -annotate +0+0 "A" Icon.png || true
@@ -64,20 +66,19 @@ jobs:
           convert -size 720x1280 xc:blue -gravity center -pointsize 120 -fill white -annotate +0+0 "Antenas" Splash.png || true
         fi
 
-
     - name: Force clean build
-      run: rm -rf .buildozer ~/.buildozer
-           rm -rf .buildozer/android/platform/build-arm64-v8a/build/other_builds/harfbuzz-freetype
-
+      run: |
+        rm -rf .buildozer ~/.buildozer
+        rm -rf .buildozer/android/platform/build-arm64-v8a/build/other_builds/harfbuzz-freetype
 
     # 7️⃣ Build APK com log detalhado
     - name: Build APK
       run: |
         source venv/bin/activate
-        # Aceita licenças do Android SDK automaticamente
+        # Aceita licenças do Android SDK automaticamente e salva o log
         yes | buildozer android debug 2>&1 | tee build.log
       continue-on-error: false
-      
+
     # 8️⃣ Upload do log completo em caso de erro
     - name: Upload build log
       if: always()
@@ -85,7 +86,7 @@ jobs:
       with:
         name: build-log
         path: build.log
-        
+
     # 9️⃣ Upload do APK gerado
     - name: Upload APK
       if: success()
