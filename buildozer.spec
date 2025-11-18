@@ -20,7 +20,7 @@ version = 0.1
 
 # (list) Application requirements
 # Versões específicas para evitar conflitos
-requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,harfbuzz==8.0.1,libpng,numpy,pillow,requests
+requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,harfbuzz,libpng,numpy,pillow,requests
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/Splash.png
 
