@@ -68,7 +68,7 @@ android.allow_backup = True
 # p4a.bootstrap = sdl2
 
 # (str) python-for-android branch to use
-p4a.branch = stable
+p4a.branch = master
 
 # Recipes locais
 p4a.local_recipes = ./p4a/recipes
