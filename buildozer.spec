@@ -20,7 +20,7 @@ version = 0.1
 
 # (list) Application requirements
 # Versões específicas para evitar conflitos
-requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,libpng,numpy,pillow,requests,harfbuzzfix
+requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,libpng,numpy,pillow,requests
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/Splash.png
@@ -71,7 +71,7 @@ android.allow_backup = True
 p4a.branch = master
 
 # Recipes locais
-p4a.local_recipes = ./p4a/recipes
+p4a.local_recipes = ./recipes
 
 
 
