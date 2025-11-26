@@ -20,7 +20,8 @@ version = 0.1
 
 # (list) Application requirements
 # Versões específicas para evitar conflitos
-requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,harfbuzz,libpng,numpy,pillow,requests
+requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,libpng,numpy,pillow,requests,harfbuzzfix
+
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/Splash.png
 
@@ -67,9 +68,11 @@ android.allow_backup = True
 # p4a.bootstrap = sdl2
 
 # (str) python-for-android branch to use
-p4a.branch = master
+p4a.branch = stable
+
 # Recipes locais
 p4a.local_recipes = ./p4a/recipes
+
 
 
 [buildozer]
