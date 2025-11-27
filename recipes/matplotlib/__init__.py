@@ -16,4 +16,4 @@ class MatplotlibRecipe(MatplotlibRecipe):
 
     name = "matplotlib"
 
-recipe = FixedMatplotlibRecipe()
+recipe = MatplotlibRecipe()
