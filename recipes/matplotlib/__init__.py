@@ -1,7 +1,7 @@
 import os
 from pythonforandroid.recipes.matplotlib import MatplotlibRecipe
 
-class MatplotlibFixRecipe(MatplotlibRecipe):
+class MatplotlibRecipe(MatplotlibRecipe):
     name = 'matplotlib'
     need_stl_shared = True
    
