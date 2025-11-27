@@ -13,7 +13,7 @@ source.include_exts = py,png,jpg,kv,atlas
 # (str) Application versioning (method 1)
 version = 0.1
 
-requirements = python3==3.10.14,kivy==2.3.0,matplotlibfix,freetype,libpng,numpy,pillow,requests,harfbuzzfix
+requirements = python3==3.10.14,kivy==2.3.0,matplotlib==3.5.3,freetype,libpng,numpy,pillow,requests,harfbuzz
 
 icon.filename = icone.png
 
