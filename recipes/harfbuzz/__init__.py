@@ -5,7 +5,7 @@ import sh
 
 
 class HarfbuzzFixRecipe(HarfbuzzRecipe):
-    name = "harfbuzzfix"
+    name = "harfbuzz"
 
     def get_recipe_env(self, arch=None, **kwargs):
         env = super().get_recipe_env(arch, **kwargs)
