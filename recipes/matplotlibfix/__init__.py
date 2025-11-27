@@ -1,7 +1,8 @@
 import os
 from pythonforandroid.recipes.matplotlib import MatplotlibRecipe
 
-class FixedMatplotlibRecipe(MatplotlibRecipe):
+class MatplotlibFixRecipe(MatplotlibRecipe):
+    name = 'matplotlibfix'
     need_stl_shared = True
    
     patches = []
