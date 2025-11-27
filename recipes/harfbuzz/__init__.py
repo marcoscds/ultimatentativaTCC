@@ -65,4 +65,4 @@ class HarfbuzzRecipe(HarfbuzzRecipe):
         self.install_headers(arch)
 
 
-recipe = HarfbuzzFixRecipe()
+recipe = HarfbuzzRecipe()
