@@ -1,4 +1,3 @@
-meu buildoser ficou assim :
 [app]
 
 title = Antenas
