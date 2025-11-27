@@ -1,0 +1,11 @@
+prefix={host_build_dir}/freetype/inst/
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${exec_prefix}/include
+
+Name: freetype2
+Description: A free, high-quality, and portable font engine.
+Version: 2.13.0
+Requires:
+Libs: -L${libdir} -lfreetype
+Cflags: -I${includedir}/freetype2
