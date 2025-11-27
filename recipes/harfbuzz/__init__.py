@@ -1,6 +1,6 @@
 import os
 from pythonforandroid.recipes.harfbuzz import HarfbuzzRecipe
-from pythonforandroid.util import current_directory, shprint
+from pythonforandroid.util import current_directory
 import sh
 
 
