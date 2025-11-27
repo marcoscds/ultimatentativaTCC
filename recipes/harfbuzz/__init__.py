@@ -59,8 +59,8 @@ class HarfbuzzRecipe(HarfbuzzRecipe):
         env = self.get_recipe_env(arch)
 
         with current_directory(self.get_build_dir(arch.arch)):
-            shprint(sh.make, "-j", str(self.cpu_count), _env=env)
-            shprint(sh.make, "install", f"DESTDIR={arch.dist_dir}", _env=env)
+            sh.make("-j", str(self.cpu_count), _env=env) 
+            sh.make("install", f"DESTDIR={arch.dist_dir}", _env=env)
 
         self.install_headers(arch)
 
