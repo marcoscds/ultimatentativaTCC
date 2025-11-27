@@ -1,0 +1,13 @@
+[directories]
+# Define o diretório base para a compilação
+basedir = {host_build_dir}
+
+[gui_support]
+# Desativa todas as dependências de GUI nativas de desktop
+tk = False
+gtk3 = False
+qt5 = False
+cairo = False
+osx = False
+# Mantém o Agg ativado, que é o backend sem GUI
+agg = True
