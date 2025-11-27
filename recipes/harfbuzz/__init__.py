@@ -4,7 +4,7 @@ from pythonforandroid.util import current_directory, shprint
 import sh
 
 
-class HarfbuzzFixRecipe(HarfbuzzRecipe):
+class HarfbuzzRecipe(HarfbuzzRecipe):
     name = "harfbuzz"
 
     def get_recipe_env(self, arch=None, **kwargs):
