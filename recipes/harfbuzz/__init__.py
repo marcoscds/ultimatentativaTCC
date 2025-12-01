@@ -49,6 +49,7 @@ class HarfbuzzRecipe(HarfbuzzRecipe):
         env["LDFLAGS"] = (
             env.get("LDFLAGS", "")
             + f" -L{freetype_build_dir}/objs/.libs"
+            + " -lstdc++"
         )
 
         env["PKG_CONFIG_PATH"] = f"{freetype_build_dir}/objs"
