@@ -55,15 +55,5 @@ class HarfbuzzRecipe(HarfbuzzRecipe):
 
         return env
 
-    def build_arch(self, arch):
-        env = self.get_recipe_env(arch)
-        cpu_count = os.cpu_count()
-
-        with current_directory(self.get_build_dir(arch.arch)):
-            sh.make("-j", str(cpu_count), _env=env) 
-            sh.make("install", f"DESTDIR={arch.dist_dir}", _env=env)
-
-        self.install_headers(arch)
-
 
 recipe = HarfbuzzRecipe()
